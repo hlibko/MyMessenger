@@ -2,6 +2,7 @@ package dev.hlib.mymessenger;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -15,6 +16,7 @@ public class CreateMessageActivity extends AppCompatActivity {
         setContentView(R.layout.activity_create_message);
     }
 
+    @SuppressLint("QueryPermissionsNeeded")
     public void onSendMessage(View view) {
         EditText editText = findViewById(R.id.message);
         String messageText = editText.getText().toString();
@@ -25,6 +27,10 @@ public class CreateMessageActivity extends AppCompatActivity {
 
         String chooserTitle = getString(R.string.send_message_via);
         Intent chosenIntent = Intent.createChooser(intent, chooserTitle);
-        startActivity(chosenIntent);
+
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivity(intent);
+        }
+        //startActivity(chosenIntent);
     }
 }
